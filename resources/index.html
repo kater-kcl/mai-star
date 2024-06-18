@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evaluate Chart</title>
+</head>
+<body>
+    <h1>Evaluate Chart</h1>
+    <form id="evaluateForm">
+        <label>song_id:</label><br>
+        <input type="text" id="song_id" name="song_id"><br>
+        <img id="coverImage" src="" alt="Cover Image"><br>
+        <label>Ind:</label><br>
+        <input type="text" id="ind" name="ind">（0~4 basic ~ re:master）<br>
+        <label>Tags:</label><br>
+        <input type="checkbox" class="tag-checkbox" value="底力">底力<br>
+        <input type="checkbox" class="tag-checkbox" value="侧重键盘">侧重键盘<br>
+        <input type="checkbox" class="tag-checkbox" value="侧重星星">侧重星星<br>
+        <input type="checkbox" class="tag-checkbox" value="交互">交互<br>
+        <input type="checkbox" class="tag-checkbox" value="纵连">纵连<br>
+        <input type="checkbox" class="tag-checkbox" value="扫键">扫键<br>
+        <input type="checkbox" class="tag-checkbox" value="转圈">转圈<br>
+        <input type="checkbox" class="tag-checkbox" value="散打">散打<br>
+        <input type="checkbox" class="tag-checkbox" value="叠键">叠键<br>
+        <input type="checkbox" class="tag-checkbox" value="位移">位移<br>
+        <input type="checkbox" class="tag-checkbox" value="出张">出张<br>
+        <input type="checkbox" class="tag-checkbox" value="错位">错位<br>
+        <input type="checkbox" class="tag-checkbox" value="节奏乱">节奏乱<br>
+        <input type="checkbox" class="tag-checkbox" value="慢速星星">慢速星星<br>
+        <input type="checkbox" class="tag-checkbox" value="一笔画">一笔画<br>
+        <input type="checkbox" class="tag-checkbox" value="短时间爆发">短时间爆发<br>
+        <input type="checkbox" class="tag-checkbox" value="耐力">耐力<br>
+        <input type="checkbox" class="tag-checkbox" value="防蹭">防蹭<br>
+        <input type="checkbox" class="tag-checkbox" value="绝赞难抓">绝赞难抓<br>
+        <input type="checkbox" class="tag-checkbox" value="touch">touch<br>
+        <button type="button" id="submitBtn">Submit</button>
+    </form>
+    <script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        var checkboxes = document.getElementsByClassName('tag-checkbox');
+        var tags = new Array(20).fill(false);
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                tags[i] = true;
+            }
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/suggestion/evaluate', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            song_id: document.getElementById('song_id').value,
+            tags: tags,
+            ind: document.getElementById('ind').value
+        }));
+    });
+    document.getElementById('song_id').addEventListener('input', function() {
+        var song_id = this.value;
+        var xhr = new XMLHttpRequest();
+        let cover_url = song_id.padStart(5, '0');
+        xhr.open('GET', '/cover/' + cover_url + '.png', true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                document.getElementById('coverImage').src = '/cover/' + cover_url + '.png';
+            }
+        };
+        xhr.send();
+    });
+    </script>
+</body>
+</html>
