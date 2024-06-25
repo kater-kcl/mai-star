@@ -5,6 +5,7 @@
 git clone https://github.com/kater-kcl/mai-star.git
 ```
 **2. 从[此链接](www.diving-fish.com/maibot/static.zip)下载资源文件，解压后将/mai/cover里的内容移动至/resources/mai_cover**   
+**资源仅供学习使用**
 **3. 安装Python3.7及以上版本**   
 **4. 安装依赖库**
 ```shell
